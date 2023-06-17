@@ -1,0 +1,32 @@
+# GitHub Labeler
+# https://github.com/marketplace/actions/github-labeler
+
+name: Label Initializer
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/label-initializer-config.yml.yml
+      - .github/workflows/label-initializer.yml
+  workflow_dispatch:
+
+jobs:
+  labeler:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run Label Initializer
+        uses: crazy-max/ghaction-github-labeler@v4.1.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          yaml-file: .github/label-initializer-config.yml
+          skip-delete: true

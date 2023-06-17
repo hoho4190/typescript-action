@@ -1,0 +1,39 @@
+name: npm Build
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  npm-build:
+    name: npm Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3.5.3
+      - run: |
+          npm install
+      - run: |
+          npm run all
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+  
+  update_release_draft:
+    name: Update release draft
+    if: github.event_name == 'push'
+    
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Update release draft
+        uses: release-drafter/release-drafter@v5.23.0
+        with:
+          config-name: release-drafter-config.yml
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
