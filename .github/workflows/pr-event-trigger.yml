@@ -21,6 +21,7 @@ jobs:
         uses: hoho4190/issue-pr-labeler@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          config-file-name: issue-pr-labeler-config.yml
         
       - name: Assign 🙆 assignees to the PR
         uses: toshimaru/auto-author-assign@v1.6.2
